@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import site
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 from loguru import logger
@@ -13,8 +14,8 @@ class Sam31Session:
     _model_name: str
     _device: str
     _confidence_threshold: float
-    _model: object | None
-    _processor: object | None
+    _model: Any | None
+    _processor: Any | None
 
     def __init__(
         self,
@@ -157,17 +158,17 @@ class Sam31Session:
         return None
 
     @staticmethod
-    def _tensor_to_list(value: object) -> list[object]:
+    def _tensor_to_list(value: Any) -> list[Any]:
         if hasattr(value, "detach"):
-            return value.detach().cpu().tolist()  # type: ignore[attr-defined]
+            return value.detach().cpu().tolist()
         if hasattr(value, "cpu") and hasattr(value, "tolist"):
-            return value.cpu().tolist()  # type: ignore[attr-defined]
+            return value.cpu().tolist()
         if hasattr(value, "tolist"):
-            return value.tolist()  # type: ignore[attr-defined]
+            return value.tolist()
         return list(value)
 
     @staticmethod
-    def _mask_to_xyxy(mask_tensor: object) -> list[float] | None:
+    def _mask_to_xyxy(mask_tensor: Any) -> list[float] | None:
         try:
             import torch
 
@@ -195,7 +196,7 @@ class Sam31Session:
         if not hasattr(sam3_vitdet, "addmm_act"):
             return
 
-        def patched_forward(self: object, x: object) -> object:
+        def patched_forward(self: Any, x: Any) -> Any:
             x = sam3_vitdet.addmm_act(type(self.act), self.fc1, x)
             x = x.float()
             x = self.drop1(x)
