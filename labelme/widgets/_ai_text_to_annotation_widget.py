@@ -83,14 +83,14 @@ class AiTextToAnnotationWidget(QtWidgets.QWidget):
         grid.addWidget(run_button, 0, 1)
 
         run_all_button = QtWidgets.QToolButton()
-        run_all_button.setText("Run All")
+        run_all_button.setText(self.tr("Run All"))
         run_all_button.setFixedHeight(24)
         run_all_button.setCursor(QtCore.Qt.PointingHandCursor)
         run_all_button.clicked.connect(on_submit_all)
         grid.addWidget(run_all_button, 0, 2)
 
         range_button = QtWidgets.QToolButton()
-        range_button.setText("Range")
+        range_button.setText(self.tr("Range"))
         range_button.setFixedHeight(24)
         range_button.setCursor(QtCore.Qt.PointingHandCursor)
         range_button.clicked.connect(on_submit_range)
@@ -101,8 +101,8 @@ class AiTextToAnnotationWidget(QtWidgets.QWidget):
         range_spinbox.setFixedHeight(24)
         range_spinbox.setRange(1, 999999)
         range_spinbox.setValue(10)
-        range_spinbox.setPrefix("N=")
-        range_spinbox.setToolTip("Number of images for Range run")
+        range_spinbox.setPrefix(self.tr("N="))
+        range_spinbox.setToolTip(self.tr("Number of images for Range run"))
         grid.addWidget(range_spinbox, 0, 4)
 
         settings_layout = QtWidgets.QHBoxLayout()

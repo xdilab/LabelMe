@@ -1245,7 +1245,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ]
         texts = [text for text in texts if text]
         if not texts:
-            self.show_status_message("AI prompt is empty", delay=3000)
+            self.show_status_message(self.tr("AI prompt is empty"), delay=3000)
             return
 
         model_name: str = self._ai_text.get_model_name()
@@ -1293,8 +1293,8 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as e:
             logger.exception("AI text-to-annotation failed")
             self.errorMessage(
-                "AI Inference Error",
-                f"<p><b>{e}</b></p>",
+                self.tr("AI Inference Error"),
+                self.tr("<p><b>%s</b></p>") % str(e),
             )
             return
 
@@ -1346,7 +1346,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _submit_ai_prompt_all(self, _: bool) -> None:
         if not self.imageList:
-            self.show_status_message("Open a folder first", delay=3000)
+            self.show_status_message(self.tr("Open a folder first"), delay=3000)
             return
 
         previous_row: int = self._docks.file_list.currentRow()
@@ -1376,7 +1376,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 processed += 1
 
             self.show_status_message(
-                f"Run All complete: {processed}/{total_images} images, {failed} failed",
+                self.tr("Run All complete: %d/%d images, %d failed")
+                % (processed, total_images, failed),
                 delay=6000,
             )
         finally:
@@ -1387,7 +1388,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _submit_ai_prompt_range(self, _: bool) -> None:
         if not self.imageList:
-            self.show_status_message("Open a folder first", delay=3000)
+            self.show_status_message(self.tr("Open a folder first"), delay=3000)
             return
 
         count: int = self._ai_text.get_range_count()
@@ -1424,10 +1425,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 processed += 1
 
             self.show_status_message(
-                (
-                    "Range complete: "
-                    f"{processed}/{end_row - start_row} images, {failed} failed"
-                ),
+                self.tr("Range complete: %d/%d images, %d failed")
+                % (processed, end_row - start_row, failed),
                 delay=6000,
             )
         finally:
