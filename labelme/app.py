@@ -1260,14 +1260,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 ):
                     self._text_sam31_session = Sam31Session(model_name=model_name)
 
-                boxes, scores, labels, masks = (
-                    bbox_from_text_sam31.get_bboxes_from_texts(
-                        session=self._text_sam31_session,
-                        image=image_array,
-                        image_id=image_id,
-                        texts=texts,
-                        min_score=self._ai_text.get_score_threshold(),
-                    )
+                boxes, scores, labels, masks = bbox_from_text_sam31.get_bboxes_from_texts(
+                    session=self._text_sam31_session,
+                    image=image_array,
+                    image_id=image_id,
+                    texts=texts,
+                    min_score=self._ai_text.get_score_threshold(),
                 )
             else:
                 model_type = osam.apis.get_model_type_by_name(model_name)
@@ -1281,14 +1279,12 @@ class MainWindow(QtWidgets.QMainWindow):
                     self._text_osam_session = OsamSession(model_name=model_name)
 
                 query_per_text: bool = model_name == "sam3:latest"
-                boxes, scores, labels, masks = (
-                    bbox_from_text.get_bboxes_from_texts_with_mode(
-                        session=self._text_osam_session,
-                        image=image_array,
-                        image_id=image_id,
-                        texts=texts,
-                        query_per_text=query_per_text,
-                    )
+                boxes, scores, labels, masks = bbox_from_text.get_bboxes_from_texts_with_mode(
+                    session=self._text_osam_session,
+                    image=image_array,
+                    image_id=image_id,
+                    texts=texts,
+                    query_per_text=query_per_text,
                 )
         except Exception as e:
             logger.exception("AI text-to-annotation failed")

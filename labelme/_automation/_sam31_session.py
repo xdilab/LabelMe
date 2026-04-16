@@ -77,9 +77,7 @@ class Sam31Session:
                     else:
                         mask_bbox = None
 
-                    xyxy = (
-                        mask_bbox if mask_bbox is not None else [float(v) for v in box]
-                    )
+                    xyxy = mask_bbox if mask_bbox is not None else [float(v) for v in box]
                     boxes_out.append(xyxy)
                     scores_out.append(score)
                     labels_out.append(label_idx)
