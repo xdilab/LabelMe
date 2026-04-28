@@ -7,9 +7,7 @@
 </h4>
 
 <div align="center">
-  <a href="https://pypi.python.org/pypi/labelme"><img src="https://img.shields.io/pypi/v/labelme.svg"></a>
-  <!-- <a href="https://pypi.org/project/labelme"><img src="https://img.shields.io/pypi/pyversions/labelme.svg"></a> -->
-  <a href="https://github.com/wkentaro/labelme/actions"><img src="https://github.com/wkentaro/labelme/actions/workflows/ci.yml/badge.svg?branch=main&event=push"></a>
+  <a href="https://github.com/xdilab/LabelMe/actions"><img src="https://github.com/xdilab/LabelMe/actions/workflows/ci.yml/badge.svg?branch=main&event=push"></a>
   <a href="https://discord.com/invite/uAjxGcJm83"><img src="https://dcbadge.limes.pink/api/server/uAjxGcJm83?style=flat"></a>
 </div>
 
@@ -32,6 +30,8 @@
 
 Labelme is a graphical image annotation tool inspired by <http://labelme.csail.mit.edu>.\
 It is written in Python and uses Qt for its graphical interface.
+
+> This repository is a fork. To install this fork, use: `pip install "git+https://github.com/xdilab/LabelMe.git"`
 
 > Looking for a simple install without Python or Qt? Get the standalone app at **[labelme.io](https://labelme.io)**.
 
@@ -62,17 +62,50 @@ It is written in Python and uses Qt for its graphical interface.
 
 ## Installation
 
-There are 3 options to install labelme:
+Use a virtual environment, then install from this repository.
 
-### Option 1: Using pip
+### Option 1 (recommended): Install this fork from GitHub
 
-For more detail, check ["Install Labelme using Terminal"](https://www.labelme.io/docs/install-labelme-terminal)
+`pip install labelme` installs the PyPI package, which may not include this fork's latest changes.
+To install this codebase directly, use:
 
 ```bash
-pip install labelme
+pip install "git+https://github.com/xdilab/LabelMe.git"
+```
 
-# To install the latest version from GitHub:
-# pip install git+https://github.com/wkentaro/labelme.git
+To pin to a branch, tag, or commit:
+
+```bash
+# branch
+pip install "git+https://github.com/xdilab/LabelMe.git@main"
+
+# tag
+pip install "git+https://github.com/xdilab/LabelMe.git@vX.Y.Z"
+
+# commit
+pip install "git+https://github.com/xdilab/LabelMe.git@<commit_sha>"
+```
+
+If you already installed the PyPI package and want to switch to this fork:
+
+```bash
+pip uninstall -y labelme
+pip install --no-cache-dir "git+https://github.com/xdilab/LabelMe.git"
+```
+
+Verify you are using this version:
+
+```bash
+python -m pip show labelme
+labelme --help
+```
+
+For local development (editable install from your cloned folder):
+
+```bash
+git clone https://github.com/xdilab/LabelMe.git
+cd LabelMe
+pip install -e .
 ```
 
 ### Option 2: Using standalone executable (Easiest)
