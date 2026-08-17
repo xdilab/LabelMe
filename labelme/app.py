@@ -269,6 +269,7 @@ class MainWindow(QtWidgets.QMainWindow):
             on_submit=self._submit_ai_prompt,
             on_submit_all=self._submit_ai_prompt_all,
             on_submit_range=self._submit_ai_prompt_range,
+            default_model=self._config["ai"]["text_default"],
             parent=self,
         )
         self._ai_text.setEnabled(False)
@@ -1253,12 +1254,16 @@ class MainWindow(QtWidgets.QMainWindow):
         image_id: str = str(hash(self._image_path))
 
         try:
-            if model_name == "sam3.1:latest":
+            if model_name.startswith("sam3.1:"):
                 if (
                     self._text_sam31_session is None
                     or self._text_sam31_session.model_name != model_name
                 ):
-                    self._text_sam31_session = Sam31Session(model_name=model_name)
+                    predictor = "video" if model_name.endswith(":video") else "image"
+                    self._text_sam31_session = Sam31Session(
+                        model_name=model_name,
+                        predictor=predictor,
+                    )
 
                 boxes, scores, labels, masks = bbox_from_text_sam31.get_bboxes_from_texts(
                     session=self._text_sam31_session,

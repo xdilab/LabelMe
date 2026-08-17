@@ -175,6 +175,14 @@ def get_shapes_from_bboxes(
             mask=mask,
             description=json.dumps(dict(score=score.item(), text=text)),
         )
+        shape.other_data.update(
+            {
+                "score": float(score),
+                "confidence": float(score),
+                "class_name": text,
+                "class_id": int(label),
+            }
+        )
         for point in points:
             shape.addPoint(QtCore.QPointF(point[0], point[1]))
         shapes.append(shape)

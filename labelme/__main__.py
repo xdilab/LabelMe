@@ -204,6 +204,15 @@ def main() -> None:
         help="epsilon to find nearest vertex on canvas",
         default=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--sam31-predictor",
+        choices=["image", "video"],
+        help=(
+            "Set AI Text-to-Annotation model to SAM3.1 image or video predictor "
+            "at startup"
+        ),
+        default=argparse.SUPPRESS,
+    )
     args = parser.parse_args()
 
     if hasattr(args, "_deprecated_nodata"):
@@ -263,6 +272,7 @@ def main() -> None:
 
     config_overrides: dict
     config_file: Path | None
+    sam31_predictor: str | None = config_from_args.pop("sam31_predictor", None)
     config_str: str = config_from_args.pop("config")
     if isinstance(config_loaded := yaml.safe_load(config_str), dict):
         config_overrides = config_loaded
@@ -277,6 +287,10 @@ def main() -> None:
             sys.exit(1)
     del config_str
     config_overrides.update(config_from_args)
+
+    if sam31_predictor is not None:
+        config_overrides.setdefault("ai", {})
+        config_overrides["ai"]["text_default"] = f"sam3.1:{sam31_predictor}"
 
     output_dir = None
     if output is not None:

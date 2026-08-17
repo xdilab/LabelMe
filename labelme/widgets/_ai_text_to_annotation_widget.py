@@ -11,7 +11,9 @@ from ._info_button import InfoButton
 
 class AiTextToAnnotationWidget(QtWidgets.QWidget):
     _available_models: list[tuple[str, str]] = [
-        ("sam3.1:latest", "SAM3.1 (smart)"),
+        ("sam3.1:image", "SAM3.1 Image"),
+        ("sam3.1:video", "SAM3.1 Video"),
+        # ("sam3.1:latest", "SAM3.1 (smart)"),  # Same behavior as sam3.1:image
         ("sam3:latest", "SAM3 (smart)"),
         ("yoloworld:latest", "YOLO-World (fast)"),
     ]
@@ -31,16 +33,18 @@ class AiTextToAnnotationWidget(QtWidgets.QWidget):
         on_submit: Callable[[bool], None],
         on_submit_all: Callable[[bool], None],
         on_submit_range: Callable[[bool], None],
+        default_model: str | None = None,
         parent: QtWidgets.QWidget | None = None,
     ) -> None:
         super().__init__(parent=parent)
-        self._init_ui(on_submit, on_submit_all, on_submit_range)
+        self._init_ui(on_submit, on_submit_all, on_submit_range, default_model)
 
     def _init_ui(
         self,
         on_submit: Callable[[bool], None],
         on_submit_all: Callable[[bool], None],
         on_submit_range: Callable[[bool], None],
+        default_model: str | None,
     ) -> None:
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(4, 4, 4, 4)
@@ -112,11 +116,12 @@ class AiTextToAnnotationWidget(QtWidgets.QWidget):
         self._model_combo = model_combo = QtWidgets.QComboBox()
         for model_id, model_display in self._available_models:
             model_combo.addItem(model_display, model_id)
+        model_name = default_model or self._default_model_name
         model_index = next(
             (
                 i
                 for i, (mid, _) in enumerate(self._available_models)
-                if mid == self._default_model_name
+                if mid == model_name
             ),
             0,
         )
